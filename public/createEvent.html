@@ -7,13 +7,13 @@
 		<h1>Event Map Create Event</h1>
 		<h3><a href= "./index.html">Return To Home Page</a><h3>
 		<br>
-		<p>Fill out the fields below to create a new event</p>
+		<h2>Fill out the fields below to create a new event hosted by you</h2>
+		<br>
 		<form>
+			<hr>
 			<label for ="EventTitle">Event Name:</label>
 			<input type="text" id = "eventTitle" name = "eventTitle">
-			<br>
-			<label for ="EventHost">Event Host:</label>
-			<input type = "text" id = "eventHost" name = "eventHost">
+			<hr>
 			<br>
 			<label for ="EventLocation">Location:</label>
 			<input type="text" id = "location" name = "location">
@@ -30,10 +30,18 @@
 			<label for ="Cost">Ticket Price:</label>
 			<input type= "text" id = "cost" name = "cost">
 			<br>
+			<br>
+			<hr>
 			<label for="Tags">Tags:</label>
 			<input type = "text" id = "tags" name = "tags">
+			<input type = "submit" value = "add">
+			<h5>#LAN<input type = "submit" value = "remove">
+			<br>#Beer<input type = "submit" value = "remove">
+			<br>#Crabs<input type = "submit" value = "remove">
+			</h5>
 			<br>
-			<input type = "submit" value = "submit">
+			<a href="./event.html"><input type = "submit" value = "FINISH"></a>
+
 		</form>
 		<br>
 	</body>
