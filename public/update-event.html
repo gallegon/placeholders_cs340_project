@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>Update Exisiting Event</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Our CSS-->
+    <link rel="stylesheet" href="./stylesheets/event-style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <!--JQuery for Static Page only, will involve templating in the future-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="./javascripts/events.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>Update event</h1>
+            <h3><a href="./index.html">Return to Home Page</a></h3>
+        </div>
+        <div class="container">
+			<div class="row">
+				  <h3><a href = "./example-event.html">Return to Event details</a><h3>
+			</div>
+		  </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="form-group">
+                <label for="event-name">Event Name</label>
+                <input type="text" class="form-control" id="event-name" placeholder="Name">
+
+                <label for="date">Date:</label>
+                <input type="text" class="form-control" id="date" placeholder="YYYY-DD-MM">
+                
+                <label for="time">Time:</label>
+                <input type="text" class="form-control" id="time" placeholder="HH:MM">
+                
+                <label for="address-line-1">Address Line 1</label>
+                <input type="text" class="form-control" id="address-line-1" placeholder="street">
+                
+                <label for="address-line-2">Address Line 2</label>
+                <input type="text" class="form-control" id="address-line-2" placeholder="Apt, suite, PO box">
+                
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" placeholder="City">
+                
+                <label for="state">State</label>
+                <input type="text" class="form-control" id="state" placeholder="State">
+                
+                <label for="zip-code">Zip Code</label>
+                <input type="text" class="form-control" id="zip-code" placeholder="Zip">
+                
+                <label for="latitude">Latitude</label>
+                <input type="text" class="form-control" id="latitude" placeholder="Coordinates">
+                
+                <label for="longitude">Longitude</label>
+                <input type="text" class="form-control" id="longitude" placeholder="Coordinates">
+                
+                <label for="event-cap">Event Capacity</label>
+                <input type="text" class="form-control" id="event-cap" placeholder="Capacity">
+                
+                <label for="entry-fee">Entry Fee</label>
+                <select class="form-control" id="entry-fee">
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+                
+                <label for="ticket-price">Ticket Price</label>
+                <input type="text" class="form-control" id="ticket-price" placeholder="Price">
+                <br>
+                
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
