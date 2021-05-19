@@ -10,6 +10,7 @@ var favicon = require('serve-favicon');
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
+var eventsRouter = require('./routes/events.js');
 
 var app = express();
 
@@ -28,8 +29,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
+// routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

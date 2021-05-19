@@ -1,5 +1,5 @@
-{{!--
 <script src="deleteUser.js"></script>
+{{!--
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 --}}
 <h3>Current users:</h3>
@@ -17,7 +17,7 @@
             <th scope="row">{{userID}}</td> 
             <td>{{firstName}}</td> 
             <td>{{lastName}}</td> 
-            <td><button onclick="deleteUser({{userID}})">Delete</button></td>
+            <td><button class="btn btn-outline-danger" onclick="deleteUser({{userID}})">Delete</button></td>
             <td><a href="/users/delete/{{userID}}">delet</a></td>
         </tr> 
         {{/each}} 
@@ -29,6 +29,12 @@
     
     <label for="input-lname">Last Name: </label>
     <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-latitude">Latitude: </label>
+    <input type="text" name="input-latitude" id="input-latitude">
+
+    <label for="input-longitude">Longitude: </label>
+    <input type="text" name="input-longitude" id="input-longitude">
 
     <input type="submit">
 </form>

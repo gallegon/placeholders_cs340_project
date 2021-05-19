@@ -14,12 +14,12 @@ INSERT INTO 'Users' VALUES
 (13, 'Doot', 'Boop', 62.3512, 10.2412),
 (14, 'Steve', 'Chiliman', 47.2536, 122.4444);
 
-INSERT INTO 'Events' VALUES
-(1, 1, '12-02-20 18.00.00', 'Come hangout in my basement', 'Seths house', '444 SW WHACK', ' ', 'Corvallis', 'Oregon', 'United States of America', 97333, 44.5642, 123.2621, 100, 0, 0.0, 69),
-(2, 7, '12-25-20 22.00.00', 'You up?', 'Your moms house', '1232 Baseline', ' ', 'Beaverton', 'Oregon', 'United States of America', '91230', 42.3215, 140.2034, 2000, 0, 0.0, 0),
-(3, 1, '6-20-21 12.00.00', 'Crab Fest', 'Seths house', '444 SW WHACK', ' ', 'Corvallis', 'Oregon', 'United States of America', 97333, 44.5642, 123.2621, 1000, 1, 20.0, 1500),
-(4, 14, '12-02-22 12.00.00', 'Steves 112th annual Chili Cookout Carnival', 'Steves Chili Farm', '1234 Burp', ' ', 'Tacoma', 'Washington', 'United States of America', 91234, 47.2536, 122.4444, 3000, 1, 10.00, 1556),
-(5, 2, '08-07-20 9.00.00', 'Eco-Restore Initiative Spring Charity Run', 'Wonder Commune', '1232 yooble', ' ', 'Yreka', 'California', 'United States of America', 96543, 39.1234, 120.1234, 6, 1, 2163.32, 2);
+INSERT INTO 'Events' (hostID, dateTime, eventName, venueNAME, addressLine1, addressLine2, city, state, country, zip, latitude, longitude, eventCapacity, hasEntryFee, ticketPrice, numberAttending) VALUES
+(1, '12-02-20 18.00.00', 'Come hangout in my basement', 'Seths house', '444 SW WHACK', ' ', 'Corvallis', 'Oregon', 'United States of America', 97333, 44.5642, 123.2621, 100, 0, 0.0, 69),
+(7, '12-25-20 22.00.00', 'You up?', 'Your moms house', '1232 Baseline', ' ', 'Beaverton', 'Oregon', 'United States of America', '91230', 42.3215, 140.2034, 2000, 0, 0.0, 0),
+(1, '6-20-21 12.00.00', 'Crab Fest', 'Seths house', '444 SW WHACK', ' ', 'Corvallis', 'Oregon', 'United States of America', '97333', 44.5642, 123.2621, 1000, 1, 20.0, 1500),
+(14, '12-02-22 12.00.00', 'Steves 112th annual Chili Cookout Carnival', 'Steves Chili Farm', '1234 Burp', ' ', 'Tacoma', 'Washington', 'United States of America', '91234', 47.2536, 122.4444, 3000, 1, 10.00, 1556),
+(2, '08-07-20 9.00.00', 'Eco-Restore Initiative Spring Charity Run', 'Wonder Commune', '1232 yooble', ' ', 'Yreka', 'California', 'United States of America', '96543', 39.1234, 120.1234, 6, 1, 2163.32, 2);
 
 INSERT INTO 'Tickets' VALUES
 (1, 1, 2, 0),
