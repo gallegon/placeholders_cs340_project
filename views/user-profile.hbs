@@ -1,8 +1,6 @@
 
 <script src="/deleteFollower.js"></script>
-{{!--
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
---}}
+
 <h5>User profile</h5>
 <table>
     <thead> 
@@ -15,7 +13,9 @@
         <tr> 
             <td>{{userID}}</td> 
             <td>{{firstName}}</td> 
-            <td>{{lastName}}<a href="/people/{{id}}">Update</a></td> 
+            <td>{{lastName}}</td>
+            {{!-- TODO: add update-user to AJAX onclick request once implemented--}}
+            <td><button class="btn btn-outline-update" onclick="">Update</button></td>
         </tr> 
         {{/each}} 
     </tbody> 
@@ -30,7 +30,8 @@
         {{#each followers}} 
         <tr> 
             <td>{{userID}}</td> 
-            <td>{{firstName}}<button class="btn btn-outline-danger" onclick="return deleteFollower({{#each ../userInfo}}{{userID}}{{/each}}, {{userID}})">Delete</button></td>
+            <td>{{firstName}}</td>
+            <td><button class="btn btn-outline-danger" onclick="return deleteFollower({{#each ../userInfo}}{{userID}}{{/each}}, {{userID}})">Delete</button></td>
         </tr> 
         {{/each}} 
     </tbody> 
@@ -45,7 +46,10 @@
         {{#each userEvents}} 
         <tr> 
             <td>{{eventName}}</td> 
-            <td>{{dateTime}}<button class="btn btn-outline-danger" onclick="return "</td>
+            <td>{{dateTime}}</td>
+            {{!--TODO: add AJAX request/route to delete or update an event to the onclick--}}
+            <td><button class="btn btn-outline-danger" onclick="">Delete</button></td>
+            <td><button class="btn btn-outline-secondary" onclick="">Update</button></td>
         </tr> 
         {{/each}} 
     </tbody> 
