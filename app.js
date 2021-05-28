@@ -7,7 +7,6 @@ var mysql = require('./dbcon.js');
 var hbs = require('express-handlebars');
 var favicon = require('serve-favicon');
 
-
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
 var eventsRouter = require('./routes/events.js');
@@ -21,13 +20,13 @@ app.set('view engine', 'hbs');
 
 app.set('mysql', mysql);
 
-app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/'}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
+
 
 // routes
 app.use('/', indexRouter);

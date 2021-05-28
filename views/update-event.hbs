@@ -1,0 +1,56 @@
+<script src="/eventForm.js"></script>
+<script src="/updateEvent.js"></script>
+
+<div class="form-group">
+{{#each eventToBeUpdated}}
+<form id="update-event-form" method="POST" action="/events/{{eventID}}">
+    <label for="eventName">Event Name</label>
+    <input type="text" class="form-control" name="eventName" id="eventName" value="{{eventName}}">
+    
+    <label for="venueName">Venue Name</label>
+    <input type="text" class="form-control" name="venueName" id="venueName" value="{{venueName}}">
+
+    <label for="dateTime">Date:</label>
+    <input type="text" class="form-control" name="dateTime" id="dateTime" placeholder="YYYY-DD-MM" value="{{dateTime}}">
+                
+    <label for="addressLine-1">Address Line 1</label>
+    <input type="text" class="form-control" name="addressLine1" id="addressLine1" placeholder="street" value="{{addressLine1}}">
+                
+    <label for="addressLine2">Address Line 2</label>
+    <input type="text" class="form-control" name="addressLine2" id="addressLine2" placeholder="Apt, suite, PO box" value="{{addressLine1}}">
+                
+    <label for="city">City</label>
+    <input type="text" class="form-control" name="city" id="city" placeholder="City" value="{{city}}">
+                
+    <label for="state">State</label>
+    <input type="text" class="form-control" name="state" id="state" placeholder="State" value="{{state}}">
+                
+    <label for="country">Country</label>
+    <input type="text" class="form-control" name="country" id="country" placeholder="country" value="{{country}}">
+
+    <label for="zip">Zip Code</label>
+    <input type="text" class="form-control" name="zip" id="zip" placeholder="Zip" value="{{zip}}">
+                
+    <label for="latitude">Latitude</label>
+    <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Coordinates" value="{{latitude}}">
+                
+    <label for="longitude">Longitude</label>
+    <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Coordinates" value="{{longitude}}">
+                
+    <label for="eventCap">Event Capacity</label>
+    <input type="text" class="form-control" name="eventCap" id="eventCap" placeholder="Capacity" value="{{eventCapacity}}">
+
+  
+    <label for="entry-fee">Entry Fee</label>
+    <select class="form-select" id="entry-fee" name="entry-fee">
+        <option value="FALSE">No</option>
+        <option value="TRUE">Yes</option>
+    </select>
+                
+    <label for="ticket-price">Ticket Price</label>                
+	<input type="text" class="form-control" name="ticket-price" id="ticket-price" placeholder="Price" value="{{ticketPrice}}">
+	{{!--<input type="submit">--}}
+    <button onclick="updateEvent({{eventID}})">Update</button>
+</form>
+{{/each}}
+</div>
