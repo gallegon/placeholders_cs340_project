@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('../dbcon.js');
 
+
 // TODO update, create events.  Add a dynamic filter to events page--filter by tags
+
 
 /*
 Display all the events on the browse-event page
@@ -16,8 +18,10 @@ function displayEvents(res, mysql, context, complete){
         }
         context.events = results;
         complete();
-    })
+    });
 }
+
+
 
 function getHosts(res, mysql, context, complete){
     let query1 = `SELECT * FROM Users;`
@@ -28,7 +32,7 @@ function getHosts(res, mysql, context, complete){
         }
         context.hosts = results;
         complete();
-    })
+    });
 }
 
 function getUpdateInfoByID(res, mysql, context, complete, id){
@@ -40,8 +44,18 @@ function getUpdateInfoByID(res, mysql, context, complete, id){
         }
         context.eventToBeUpdated = results;
         complete();
-    })
+    });
 }
+
+
+
+/*
+
+GET Request routes 
+
+*/
+
+
 // get /events route
 router.get('/', function(req, res){
     var callbackCount = 0;
@@ -71,15 +85,76 @@ router.get('/update/:id', function(req, res){
         }
     }
     
-})
+});
+
+
+/* 
+
+POST Request Routes 
+
+*/
+
+
+// and an event - TODO: simplfy request to use inserts 
+router.post('/add-event-form', function(req, res){
+    let data = req.body;
+
+    var dateTime = req.body.date + " " + req.body.time;
+    console.log(req.body.eventName);
+    console.log(req.body.date);
+    console.log(req.body.time);
+    console.log(dateTime);
+    var _entryFee = null;
+    var _ticketPrice = null;
+    if (data.hasEntryFee == "FALSE") {
+        _entryFee = false;
+        _ticketPrice = 0;
+    }
+    else {
+        _entryFee = true;
+        _ticketPrice = data.ticketPrice;
+    }
+
+    var mysql = req.app.get('mysql');
+    query1 = `INSERT INTO Events (hostID, dateTime, eventName, venueName, addressLine1, addressLine2, city, state, country, zip, latitude, longitude, eventCapacity, hasEntryFee, ticketPrice, numberAttending) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)`;  
+    inserts = [data.hostID, dateTime, data.eventName, data.venueName, data.addressLine1, data.addressLine2, data.city, data.state, data.country, data.zip, data.latitude, data.longitude, data.eventCapacity, _entryFee, _ticketPrice, 0];
+    query1 = mysql.pool.query(query1, inserts, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+  
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+  
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/events');
+        }
+    });
+});
+
 
 // update an event by specific id
 router.post('/:id', function(req, res){
     var mysql = req.app.get('mysql');
     let data = req.body;
     let id = req.params.id;
+    var _entryFee = null;
+    var _ticketPrice = null;
+    if (data.hasEntryFee == "FALSE"){
+        _entryFee = false;
+        _ticketPrice = 0;
+    }
+    else {
+        _entryFee = true;
+        _ticketPrice = data.ticketPrice;
+    }
     var sql = "UPDATE Events SET dateTime=?, eventName=?, venueName=?, addressLine1=?, addressLine2=?, city=?, state=?, country=?, zip=?, latitude=?, longitude=?, eventCapacity=?, hasEntryFee=?, ticketPrice=? WHERE eventID=?";
-    var inserts = [data.dateTime, data.eventName, data.venueName, data.addressLine1, data.addressLine2, data.city, data.state, data.country, data.zip, data.latitude, data.longitude, data.eventCap, 1, 25, id];
+    var inserts = [data.dateTime, data.eventName, data.venueName, data.addressLine1, data.addressLine2, data.city, data.state, data.country, data.zip, data.latitude, data.longitude, data.eventCapacity, _entryFee, _ticketPrice, id];
 
     sql = mysql.pool.query(sql,inserts,function(error, results, fields){
         if(error){
@@ -92,8 +167,22 @@ router.post('/:id', function(req, res){
             res.end();
         }
     });
-})
+});
 
+
+/*
+
+PUT request routes
+
+*/
+
+// TODO: convert update event from a POST to a PUT request
+
+/*
+
+DELETE request routes
+
+*/
 // delete an event by a specific ID
 router.delete('/delete/:id', function(req, res){
     var mysql = req.app.get('mysql');
@@ -107,16 +196,16 @@ router.delete('/delete/:id', function(req, res){
         }else{
             res.status(202).end();
         }
-    })
-})
+    });
+});
 
-// and an event:
+/* // and an event:
 router.post('/add-event-form', function(req, res){
     let data = req.body;
-    let event_capacity = data['event-cap'];
-    let host_id = data['host-id']
-
-    if (data['entry-fee'] === "FALSE") {
+    var event_capacity = data['event-cap'];
+    var host_id = data['host-id'];
+    console.log(req.body.eventName);
+    if (data['entry-fee'] == "FALSE") {
         has_entry_fee = false;
         ticket_price = 0;
     }
@@ -144,8 +233,8 @@ router.post('/add-event-form', function(req, res){
         {
             res.redirect('/events');
         }
-    })
-})
+    });
+}); */
 
 module.exports = router;
 

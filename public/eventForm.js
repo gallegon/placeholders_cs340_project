@@ -1,15 +1,15 @@
 //
 $(document).ready(function () {
     toggleFields();
-    $("#entry-fee").change(function () {
+    $("#hasEntryFee").change(function () {
         toggleFields();
     });
 });
 
 // toggle the ticket price field is the entry fee field is the same
 function toggleFields() {
-    if ($("#entry-fee").val() === "TRUE")
-        $("#ticket-price").show();
+    if ($("#hasEntryFee").val() === "TRUE")
+        $("#ticketPriceInput").show();
     else
-        $("#ticket-price").hide();
+        $("#ticketPriceInput").hide();
 }

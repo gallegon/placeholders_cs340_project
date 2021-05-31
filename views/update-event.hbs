@@ -37,19 +37,21 @@
     <label for="longitude">Longitude</label>
     <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Coordinates" value="{{longitude}}">
                 
-    <label for="eventCap">Event Capacity</label>
-    <input type="text" class="form-control" name="eventCap" id="eventCap" placeholder="Capacity" value="{{eventCapacity}}">
+    <label for="eventCapacity">Event Capacity</label>
+    <input type="text" class="form-control" name="eventCapacity" id="eventCapacity" placeholder="Capacity" value="{{eventCapacity}}">
 
   
-    <label for="entry-fee">Entry Fee</label>
-    <select class="form-select" id="entry-fee" name="entry-fee">
+    <label for="hasEntryFee">Entry Fee</label>
+    <select class="form-select" id="hasEntryFee" name="hasEntryFee">
         <option value="FALSE">No</option>
         <option value="TRUE">Yes</option>
     </select>
-                
-    <label for="ticket-price">Ticket Price</label>                
-	<input type="text" class="form-control" name="ticket-price" id="ticket-price" placeholder="Price" value="{{ticketPrice}}">
-	{{!--<input type="submit">--}}
+    
+    <div id="ticketPriceInput">
+        <label for="ticketPrice">Ticket Price</label>                
+	    <input type="text" class="form-control" name="ticketPrice" id="ticketPrice" placeholder="Price" value="{{ticketPrice}}">
+	</div>
+    {{!--<input type="submit">--}}
     <button onclick="updateEvent({{eventID}})">Update</button>
 </form>
 {{/each}}

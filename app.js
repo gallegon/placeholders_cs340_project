@@ -6,6 +6,7 @@ var logger = require('morgan');
 var mysql = require('./dbcon.js');
 var hbs = require('express-handlebars');
 var favicon = require('serve-favicon');
+//var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
@@ -21,8 +22,10 @@ app.set('view engine', 'hbs');
 app.set('mysql', mysql);
 
 app.use(logger('dev'));
+app.use(express.urlencoded({extended: false})); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({extended:true}));
+//app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));

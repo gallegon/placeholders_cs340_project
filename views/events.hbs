@@ -1,6 +1,8 @@
 <script src="/deleteEvent.js"></script>
 <script src="/eventForm.js"></script>
 <script src="/updateEvent.js"></script>
+
+{{!-- Display all events from table --}}
 <h3>Events:</h3>
 <table class = "table">
     <thead>
@@ -25,32 +27,35 @@
     </tbody> 
 </table>
 
+{{!-- Add an event --}}
+<div class="form-group">
 <form id="add-event-form" method="POST" action="/events/add-event-form">
-    <label for="event-name">Event Name</label>
-    <input type="text" class="form-control" name="event-name" id="event-name" placeholder="Name">
+    <label for="eventName">Event Name</label>
+    <input type="text" class="form-control" name="eventName" id="eventName" placeholder="Name" required>
     
-    <label for="host-id">Host</label>
-    <select class="form-select" id="host-id" name="host-id">
-            <option selected>Choose a host</option>
+    {{!-- Choose an existing user to host an event --}}
+    <label for="hostID">Host</label>
+    <select class="form-select" id="hostID" name="hostID" required>
+            <option value ="" selected>Choose a host</option>
         {{#each hosts}}
             <option value="{{userID}}">{{firstName}} {{lastName}}</option>
         {{/each}}
     </select>
 
-    <label for="venue-name">Venue Name</label>
-    <input type="text" class="form-control" name="venue-name" id="venue-name" placeholder="Name">
+    <label for="venueName">Venue Name</label>
+    <input type="text" class="form-control" name="venueName" id="venueName" placeholder="Name" required>
 
-    <label for="date-time">Date and Time (YYYY-MM-DD HH.MM.SS):</label>
-    <input type="text" class="form-control" name="date-time" id="date" placeholder="YYYY-DD-MM">
+    <label for="date">Date and Time (YYYY-MM-DD)</label>
+    <input type="date" class="form-control" name="date" id="date" placeholder="YYYY-DD-MM" required>
                 
-    <label for="time">Time:</label>
-    <input type="text" class="form-control" name="time" id="time" placeholder="HH:MM">
+    <label for="time">Time (HH:MM AM/PM):</label>
+    <input type="time" class="form-control" name="time" id="time" placeholder="HH:MM" required>
                 
-    <label for="address-line-1">Address Line 1</label>
-    <input type="text" class="form-control" name="address-line-1" id="address-line-1" placeholder="street">
+    <label for="addressLine1">Address Line 1</label>
+    <input type="text" class="form-control" name="addressLine1" id="addressLine1" placeholder="street">
                 
-    <label for="address-line-2">Address Line 2</label>
-    <input type="text" class="form-control" name="address-line-2" id="address-line-2" placeholder="Apt, suite, PO box">
+    <label for="addressLine2">Address Line 2</label>
+    <input type="text" class="form-control" name="addressLine2" id="addressLine2" placeholder="Apt, suite, PO box">
                 
     <label for="city">City</label>
     <input type="text" class="form-control" name="city" id="city" placeholder="City">
@@ -61,38 +66,30 @@
     <label for="country">Country</label>
     <input type="text" class="form-control" name="country" id="country" placeholder="country">
 
-    <label for="zip-code">Zip Code</label>
-    <input type="text" class="form-control" name="zip-code" id="zip-code" placeholder="Zip">
+    <label for="zip">Zip Code</label>
+    <input type="text" class="form-control" name="zip" id="zip" placeholder="Zip">
                 
     <label for="latitude">Latitude</label>
-    <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Coordinates">
+    <input type="number" class="form-control" name="latitude" id="latitude" placeholder="Coordinates" min=-90 max=90 step=0.00001 required>
                 
     <label for="longitude">Longitude</label>
-    <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Coordinates">
+    <input type="number" class="form-control" name="longitude" id="longitude" placeholder="Coordinates" min=-180 max=180 step=0.00001 required>
                 
-    <label for="event-cap">Event Capacity</label>
-    <input type="text" class="form-control" name="event-cap" id="event-cap" placeholder="Capacity">
+    <label for="eventCapacity">Event Capacity</label>
+    <input type="number" class="form-control" name="eventCapacity" id="eventCapacity" placeholder="Capacity" required>
 
   
-    <label for="entry-fee">Entry Fee</label>
-    <select class="form-select" id="entry-fee" name="entry-fee">
+    <label for="hasEntryFee">Entry Fee</label>
+    <select class="form-select" id="hasEntryFee" name="hasEntryFee">
         <option value="FALSE">No</option>
         <option value="TRUE">Yes</option>
     </select>
-                
-    <label for="ticket-price">Ticket Price</label>                
-	<input type="text" class="form-control" name="ticket-price" id="ticket-price" placeholder="Price">
-	<input type="submit">    
-    {{!--
-    <lable for="add-tag">Tags</lable>
-	<input type="text" class="form-control" id="add-tag" placeholder="">
-					 <button class="btn btn-primary">add tag</button>
-					 <br>
-					 <h5>LAN<button class="btn btn-danger">Remove</button></h5>
-					 <h5>Beer<button class="btn btn-danger">Remove</button></h5>
-					 <h5>Crab<button class="btn btn-danger">Remove</button></h5>
-					 <br>
-                
-    <button class="btn btn-primary" type="submit">Submit</button>
-    --}}
+    
+    <div id="ticketPriceInput">         
+        <label for="ticketPrice">Ticket Price</label>                
+	    <input type="text" class="form-control" name="ticketPrice" id="ticketPrice" placeholder="Price">
+    </div>   
+	
+    <input type="submit" value="submit">    
 </form>
+</div>

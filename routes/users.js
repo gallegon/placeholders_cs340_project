@@ -14,7 +14,7 @@ function getUserPageByID(res, mysql, context, complete, id){
     }
     context.userInfo = results;
     complete();
-  })
+  });
 }
 
 // displays a user's followers from Users_Users table
@@ -27,7 +27,7 @@ function getUserFollowers(res, mysql, context, complete, id){
     }
     context.followers = results;
     complete();
-  })
+  });
 }
 
 function getUserEvents(res, mysql, context, complete, id){
@@ -39,7 +39,7 @@ function getUserEvents(res, mysql, context, complete, id){
     }
     context.userEvents = results;
     complete();
-  })
+  });
 }
 
 
@@ -52,7 +52,7 @@ function displayAllUsers(res, mysql, context, complete){
     }
     context.userData = results;
     complete();
-  })
+  });
 }
 
 function deleteUser(id){
@@ -62,7 +62,7 @@ function deleteUser(id){
       success: function(result){
           window.location.reload();
       }
-  })
+  });
 };
 
 // get /users route
@@ -92,7 +92,7 @@ router.get('/profile/:id', function(req, res){
   // display the user's follows
   getUserFollowers(res, mysql, context, complete, id);
   // display the user's events
-  getUserEvents(res, mysql, context, complete, id)
+  getUserEvents(res, mysql, context, complete, id);
   function complete() {
     callbackCount++;
     if(callbackCount >= 3){
@@ -157,8 +157,8 @@ router.delete('/delete/:id', function(req, res){
       }else{
           res.status(202).end();
       }
-  })
-})
+  });
+});
 
 // delete a follower from a user's account
 router.delete('/delete/:followedID/:followerID', function(req, res){
@@ -175,6 +175,6 @@ router.delete('/delete/:followedID/:followerID', function(req, res){
     else{
       res.status(202).end();
     }
-  })
-})
+  });
+});
 module.exports = router;
