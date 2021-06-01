@@ -1,6 +1,7 @@
 <script src="/deleteEvent.js"></script>
 <script src="/eventForm.js"></script>
 <script src="/updateEvent.js"></script>
+<script src="/javascripts/events.js"></script>
 
 {{!-- Display all events from table --}}
 <h3>Events:</h3>
@@ -15,7 +16,7 @@
     </thead> 
     <tbody>
         {{#each events}} 
-        <tr> 
+        <tr data-href="/events/view/{{eventID}}" id="eventListing"> 
             <th scope="row">{{eventName}}</td> 
             <td>{{dateTime}}</td> 
             <td>{{city}}</td>

@@ -21,7 +21,18 @@ function displayEvents(res, mysql, context, complete){
     });
 }
 
-
+function getEventByID(res, mysql, context, complete, id){
+    let query1 = "SELECT * FROM Events WHERE eventID = " + id + ";";
+    mysql.pool.query(query1, function(error, results){
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        context.event = results;
+        //console.log(context.event.eventName);
+        complete();
+    }); 
+}
 
 function getHosts(res, mysql, context, complete){
     let query1 = `SELECT * FROM Users;`
@@ -47,7 +58,25 @@ function getUpdateInfoByID(res, mysql, context, complete, id){
     });
 }
 
-
+function checkTicketsAvailable(res, mysql, context, complete, id){
+    let query1 = 'SELECT eventCapacity, numberAttending FROM Events WHERE EventID =' + id + ';';
+    mysql.pool.query(query1, function(error, results){
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        var ticketsRemaining = results[0].eventCapacity - results[0].numberAttending;
+        //context.eventToBeUpdated = results;
+        console.log(results[0].eventCapacity - results[0].numberAttending);
+        if (ticketsRemaining <= 0) {
+            ticketsRemaining = 0;
+        }
+        // check for the number of users attending against event capacity
+        context.availability = results;
+        context.availability.ticketsAvailable = ticketsRemaining;
+        complete();
+    });
+}
 
 /*
 
@@ -71,6 +100,24 @@ router.get('/', function(req, res){
     }
 });
 
+// get a specific event page
+router.get('/view/:id', function(req, res) {
+    var callbackCount = 0;
+    context = {};
+    id = req.params.id;
+    var mysql = req.app.get('mysql');
+    getEventByID(res, mysql, context, complete, id);
+    checkTicketsAvailable(res, mysql, context, complete, id);
+    function complete() {
+        callbackCount++;
+        if (callbackCount >= 2){
+            console.log(context.availability.ticketsAvailable);
+            res.render('event', context);
+        }
+    }
+});
+
+
 // get a form for a specific event to update
 router.get('/update/:id', function(req, res){
     var callbackCount = 0;
@@ -78,6 +125,7 @@ router.get('/update/:id', function(req, res){
     id = req.params.id;
     var mysql = req.app.get('mysql');
     getUpdateInfoByID(res, mysql, context, complete, id);
+    getEventByID(res, mysql, context, complete, id);
     function complete() {
         callbackCount++;
         if (callbackCount >= 1){
@@ -87,6 +135,20 @@ router.get('/update/:id', function(req, res){
     
 });
 
+router.get('/get-ticket/:id', function(req, res){
+    var callbackCount = 0;
+    context = {};
+    id = req.params.id;
+    var mysql = req.app.get('mysql');
+    getHosts(res, mysql, context, complete);
+    getEventByID(res, mysql, context, complete, id);
+    function complete() {
+        callbackCount++;
+        if (callbackCount >= 2) {
+            res.render('get-tickets', context)
+        }
+    }
+});
 
 /* 
 
@@ -138,6 +200,27 @@ router.post('/add-event-form', function(req, res){
 });
 
 
+router.post('/add-ticket/:id', function(req, res){
+    var mysql = req.app.get('mysql');
+    let data = req.body;
+    let id = req.params.id;
+    var sql = "INSERT INTO Tickets (ownerID, eventID, confirmedArrival) VALUES (?, ?, 0);";
+    var inserts = [data.ownerID, id];
+    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+        if(error){
+            console.log(error)
+            res.write(JSON.stringify(error));
+            res.end();
+        }else{
+            res.status(200);
+            res.end();
+        }
+    });
+    sql = "UPDATE Events SET numberAttending = numberAttending + 1;";
+    sql = mysql.pool.query(sql);
+});
+
+
 // update an event by specific id
 router.post('/:id', function(req, res){
     var mysql = req.app.get('mysql');
@@ -169,6 +252,24 @@ router.post('/:id', function(req, res){
     });
 });
 
+/* router.post('/add-ticket-form', function(req, res){
+    var mysql = req.app.get('mysql');
+    let data = req.body;
+    let id = req.params.id;
+    var sql = "INSERT INTO Tickets (ownerID, eventID, confirmedArrival) VALUES (?, ?, 0);"
+    var inserts = [data.ownerID, data.eventID];
+    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+        if(error){
+            console.log(error)
+            res.write(JSON.stringify(error));
+            res.end();
+        }else{
+            res.status(200);
+            res.redirect('/events');
+            res.end();
+        }
+    });
+}); */
 
 /*
 

@@ -1,0 +1,45 @@
+<script src="/getTicketPage.js"></script>
+{{#each event}}
+    <h2>{{eventName}}</h2>
+    <ul class="list-group">
+        <li class="list-group-item"></li>
+        <li class="list-group-item">Location: {{venueName}}</li>
+        <li class="list-group-item">Date and Time: {{dateTime}}</li>
+        <li class="list-group-item" step=0.01>Ticket Price: ${{ticketPrice}}</li>
+    </ul>
+    <div class="accordian" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Details
+            </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Address: {{addressLine1}} {{addressLine2}} {{city}} {{state}} {{country}} {{zip}}</li>
+                        <li class="list-group-item">Latitude: {{latitude}}</li>
+                        <li class="list-group-item">Longitude: {{longitude}}</li>
+                        <li class="list-group-item">Capacity: {{eventCapacity}}</li>
+                        <li class="list-group-item">Attending: {{numberAttending}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/each}}
+
+<br>
+
+<!-- Get a ticket button if tickets are still available (numberAttending < eventCapacity) -->
+{{#if availability.ticketsAvailable }}
+<div class="d-grid gap-2">
+    {{#each event}}
+    <button class="btn btn-primary" type="button" onclick="getTicketPage({{eventID}})">Get a Ticket</button>
+    {{/each}}
+</div>
+{{else}}
+<div class="d-grid gap-2">
+    <button class="btn btn-secondary" type="button" disabled>Sold out :(</button>
+</div>
+{{/if}}
