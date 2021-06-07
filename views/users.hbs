@@ -34,7 +34,7 @@
             <td>{{lastName}}</td> 
             <td><button class="btn btn-outline-danger" onclick="deleteUser({{userID}})">Delete</button></td>
             {{!--TODO: add delete AJAX request when update is implemented --}}
-            <td><button class="btn btn-outline-secondary" onclick="location.href='/users/update/{{eventID}}'">Update</button></td>
+            <td><button class="btn btn-outline-secondary" onclick="location.href='/users/profile/{{userID}}'">Update</button></td>
         </tr> 
         {{/each}} 
     </tbody> 
