@@ -65,7 +65,7 @@ function checkTicketsAvailable(res, mysql, context, complete, id){
             res.write(JSON.stringify(error));
             res.end();
         }
-        var ticketsRemaining = results[0].eventCapacity - results[0].numberAttending;
+        var ticketsRemaining = results[0].eventCapacity + results[0].numberAttending;
         //context.eventToBeUpdated = results;
         console.log(results[0].eventCapacity - results[0].numberAttending);
         if (ticketsRemaining <= 0) {
