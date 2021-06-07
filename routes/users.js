@@ -142,6 +142,22 @@ router.post('/add-user-form', function(req, res){
   })
 })
 
+//Form for updating user
+router.get('/update/:id', function(req,res){
+  var callbackCount = 0;
+  context = {};
+  id = req.params.id;
+  var mysql = req.app.get('mysql');
+  getUserPageByID(res, mysql, context, complete, id);
+  function complete(){
+    callbackCount++;
+    if (callbackCount >= 1){
+      res.render('update-user', context);
+    }
+  }
+})
+
+
 // delete a user with a specific id
 router.delete('/delete/:id', function(req, res){
   var mysql = req.app.get('mysql');
