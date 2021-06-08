@@ -5,7 +5,15 @@ title {
     cursor: pointer;
 }
 
-#event-listing:hover {
+#eventListing {
+    z-index: -1;
+}
+
+#deleteEventButton {
+    z-index: 1;
+}
+
+#eventListing:hover {
     background-color: rgb(206, 255, 255);
 }
 
