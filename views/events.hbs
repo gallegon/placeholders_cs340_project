@@ -16,13 +16,14 @@
     </thead> 
     <tbody>
         {{#each events}} 
-        <tr data-href="/events/view/{{eventID}}" id="eventListing"> 
+        <tr id="eventListing"> 
             <th scope="row">{{eventName}}</td> 
             <td>{{dateTime}}</td> 
             <td>{{city}}</td>
             <td>{{country}}</td>
-            <td><button class = "btn btn-outline-danger" onclick="return deleteEvent({{eventID}})">Delete</button></td>
-            <td><button class = "btn btn-outline-secondary" onclick="location.href='/events/update/{{eventID}}'">Update</button></td>
+            <td><button id="goToEvent" class="btn btn-primary" onclick="location.href='/events/view/{{eventID}}'">Go to Event Page</button></td>
+            <td><button id="deleteEventButton"class = "btn btn-outline-danger" onclick="return deleteEvent({{eventID}})">Delete</button></td>
+            <td><button id="updateEventButton" class="btn btn-outline-secondary" onclick="location.href='/events/update/{{eventID}}'">Update</button></td>
         </tr> 
         {{/each}} 
     </tbody> 
