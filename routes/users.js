@@ -17,6 +17,19 @@ function getUserPageByID(res, mysql, context, complete, id){
   });
 }
 
+// gets all user's by their unique user ID
+function getUsers(res, mysql, context, complete, id){
+  let query1 = "SELECT userID, firstName, lastName FROM Users;";
+  mysql.pool.query(query1, function(error, results){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.usersInfo = results;
+    complete();
+  });
+}
+
 // displays a user's followers from Users_Users table
 function getUserFollowers(res, mysql, context, complete, id){
   let query1 = "SELECT userID, firstName FROM Users u INNER JOIN Users_Users uu ON u.userID=uu.followedBy WHERE uu.followedUser=" + id + ";";
@@ -93,9 +106,12 @@ router.get('/profile/:id', function(req, res){
   getUserFollowers(res, mysql, context, complete, id);
   // display the user's events
   getUserEvents(res, mysql, context, complete, id);
+  // display all users
+  getUsers(res, mysql, context, complete, id);
+
   function complete() {
     callbackCount++;
-    if(callbackCount >= 3){
+    if(callbackCount >= 4){
        res.render('user-profile',context);
     }
   }
@@ -159,6 +175,26 @@ router.delete('/delete/:id', function(req, res){
           res.status(202).end();
       }
   });
+});
+
+//add a user to follow by another user's account
+router.post('/add-following/:id', function(req, res){
+  var mysql = req.app.get('mysql');
+  let data = req.body;
+  let id = req.params.id;
+  var sql = "INSERT INTO Users_Users (followedBy, followedUser) VALUES (?, ?);";
+  var inserts = [data.followedID, id];
+  sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+      if(error){
+          console.log(error)
+          res.write(JSON.stringify(error));
+          res.end();
+      }else{
+          res.status(200);
+          res.end();
+      }
+  });
+  sql = mysql.pool.query(sql);
 });
 
 // delete a follower from a user's account

@@ -20,6 +20,34 @@
         {{/each}} 
     </tbody> 
 </table>
+<h3>Following</h3>
+<table>
+    <thead>
+        <th>FollowingID</th>
+        <th>First Name</th>
+        
+        <form id="add-following-form" method="POST" action="/users/add-following/{{#each userInfo}}{{userID}}{{/each}}"></form>
+            <label for="followedID">Select a user to follow</label>
+            <select class="form-select" id="userID" name="userID" required>
+                <option value ="" selected>Follow Account</option>
+                {{#each usersInfo}}
+                <option value="{{userID}}">{{firstName}} {{lastName}}</option>
+                {{/each}}
+            </select>
+        </form>
+
+        <tbody>
+            {{#each following}}
+            <tr>
+                <td>{{userID}}</td>
+                <td>{{firstName}}</td>
+                <td><button class="btn btn-outline-danger" onclick="return deleteFollower({{#each ../userInfo}}{{userID}}{{/each}}, {{userID}})">Delete</button></td>
+                
+            </tr>
+            {{/each}}
+        </tbody>
+    </thead>
+</table>
 <h3>Followers</h3>
 <table>
     <thead>
