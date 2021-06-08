@@ -26,14 +26,15 @@
         <th>FollowingID</th>
         <th>First Name</th>
         
-        <form id="add-following-form" method="POST" action="/users/add-following/{{#each userInfo}}{{userID}}{{/each}}"></form>
+        <form id="add-following-form" method="POST" action="/users/add-following/{{#each userInfo}}{{userID}}{{/each}}">
             <label for="followedID">Select a user to follow</label>
-            <select class="form-select" id="userID" name="userID" required>
+            <select class="form-select" id="followedID" name="followedID" required>
                 <option value ="" selected>Follow Account</option>
                 {{#each usersInfo}}
                 <option value="{{userID}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
             </select>
+            <input type="submit" value="submit">  
         </form>
 
         <tbody>
@@ -41,7 +42,7 @@
             <tr>
                 <td>{{userID}}</td>
                 <td>{{firstName}}</td>
-                <td><button class="btn btn-outline-danger" onclick="return deleteFollower({{#each ../userInfo}}{{userID}}{{/each}}, {{userID}})">Delete</button></td>
+                <td><button class="btn btn-outline-danger" onclick="return deleteFollower({{userID}}, {{#each ../userInfo}}{{userID}}{{/each}})">Delete</button></td>
                 
             </tr>
             {{/each}}
@@ -76,9 +77,24 @@
             <td>{{eventName}}</td> 
             <td>{{dateTime}}</td>
             {{!--TODO: add AJAX request/route to delete or update an event to the onclick--}}
-            <td><button class="btn btn-outline-danger" onclick="">Delete</button></td>
-            <td><button class="btn btn-outline-secondary" onclick="">Update</button></td>
         </tr> 
         {{/each}} 
     </tbody> 
 </table>
+<h3>Tickets</h3>
+<table>
+    <thead>
+        <th>Event Name</th> 
+        <th>Date and Time</th> 
+    </thead> 
+    <tbody>
+        {{#each userTickets}} 
+        <tr> 
+            <td>{{eventName}}</td> 
+            <td>{{dateTime}}</td>
+            {{!--TODO: add AJAX request/route to delete or update an event to the onclick--}}
+        </tr> 
+        {{/each}} 
+    </tbody> 
+</table>
+

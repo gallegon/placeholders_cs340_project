@@ -218,6 +218,7 @@ router.post('/add-ticket/:id', function(req, res){
     });
     sql = "UPDATE Events SET numberAttending = numberAttending + 1;";
     sql = mysql.pool.query(sql);
+    res.redirect('../');
 });
 
 

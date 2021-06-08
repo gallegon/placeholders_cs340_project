@@ -30,6 +30,20 @@ function getUsers(res, mysql, context, complete, id){
   });
 }
 
+// get user following
+function getUserFollowing(res, mysql, context, complete, id){
+  let query1 = "SELECT userID, firstName FROM Users u INNER JOIN Users_Users uu ON u.userID=uu.followedUser WHERE uu.followedBY=" + id + ";";
+  //let query1 = "SELECT userID, firstName, lastName FROM Users;";
+  mysql.pool.query(query1, function(error, results){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.following = results;
+    complete();
+  });
+}
+
 // displays a user's followers from Users_Users table
 function getUserFollowers(res, mysql, context, complete, id){
   let query1 = "SELECT userID, firstName FROM Users u INNER JOIN Users_Users uu ON u.userID=uu.followedBy WHERE uu.followedUser=" + id + ";";
@@ -53,6 +67,18 @@ function getUserEvents(res, mysql, context, complete, id){
     context.userEvents = results;
     complete();
   });
+}
+
+function getUserTicketEvents(res, mysql, context, complete, id){
+  let query1 = "SELECT eventName, dateTime FROM Events u INNER JOIN Tickets uu ON u.eventID=uu.eventID WHERE uu.ownerID=" + id + ";";
+  mysql.pool.query(query1, function(error, results){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.userTickets = results;
+    complete();
+  })
 }
 
 
@@ -108,10 +134,14 @@ router.get('/profile/:id', function(req, res){
   getUserEvents(res, mysql, context, complete, id);
   // display all users
   getUsers(res, mysql, context, complete, id);
+  // display user following
+  getUserFollowing(res, mysql, context, complete, id);
+
+  getUserTicketEvents(res, mysql, context, complete, id);
 
   function complete() {
     callbackCount++;
-    if(callbackCount >= 4){
+    if(callbackCount >= 6){
        res.render('user-profile',context);
     }
   }
@@ -183,7 +213,7 @@ router.post('/add-following/:id', function(req, res){
   let data = req.body;
   let id = req.params.id;
   var sql = "INSERT INTO Users_Users (followedBy, followedUser) VALUES (?, ?);";
-  var inserts = [data.followedID, id];
+  var inserts = [id, data.followedID];
   sql = mysql.pool.query(sql,inserts,function(error, results, fields){
       if(error){
           console.log(error)
@@ -194,8 +224,11 @@ router.post('/add-following/:id', function(req, res){
           res.end();
       }
   });
-  sql = mysql.pool.query(sql);
+  res.redirect('../profile/' + id );
 });
+
+//delete a following from a user's account
+//router.delete('delete/:followingID'/)
 
 // delete a follower from a user's account
 router.delete('/delete/:followedID/:followerID', function(req, res){
