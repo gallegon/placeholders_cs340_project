@@ -10,9 +10,17 @@
     <label for="venueName">Venue Name</label>
     <input type="text" class="form-control" name="venueName" id="venueName" value="{{venueName}}">
 
+    {{!--
     <label for="dateTime">Date:</label>
     <input type="text" class="form-control" name="dateTime" id="dateTime" placeholder="YYYY-DD-MM" value="{{dateTime}}">
+    --}}
+
+    <label for="date">Date and Time (YYYY-MM-DD)</label>
+    <input type="date" class="form-control" name="date" id="date" placeholder="YYYY-DD-MM" required>
                 
+    <label for="time">Time (HH:MM AM/PM):</label>
+    <input type="time" class="form-control" name="time" id="time" placeholder="HH:MM" required>
+
     <label for="addressLine-1">Address Line 1</label>
     <input type="text" class="form-control" name="addressLine1" id="addressLine1" placeholder="street" value="{{addressLine1}}">
                 

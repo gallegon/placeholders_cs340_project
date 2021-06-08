@@ -1,12 +1,12 @@
 <script src="/deleteEvent.js"></script>
 <script src="/eventForm.js"></script>
 <script src="/updateEvent.js"></script>
-<script src="/javascripts/events.js"></script>
 <script src="/filterEventTags.js"></script>
 
+{{!--Filter events by an existing tag from dropdown--}}
 <div class="form-group">
 <form id="tag" method="" action="">
-    <label for="filter">Host</label>
+    <label for="filter">Filters</label>
     <select class="form-select" id="filter" name="filter" required>
             <option value ="" selected>Choose a tag to filter</option>
         {{#each tags}}

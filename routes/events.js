@@ -30,7 +30,6 @@ function getEventByID(res, mysql, context, complete, id){
             res.end();
         }
         context.event = results;
-        //console.log(context.event.eventName);
         complete();
     }); 
 }
@@ -55,7 +54,6 @@ function getTagsByID(res, mysql, context, complete, id){
             res.end();
         }
         context.tags = results;
-        //console.log(context.event.eventName);
         complete();
     });
 }
@@ -107,7 +105,6 @@ function checkTicketsAvailable(res, mysql, context, complete, id){
             res.end();
         }
         var ticketsRemaining = results[0].eventCapacity + results[0].numberAttending;
-        //context.eventToBeUpdated = results;
         console.log(results[0].eventCapacity - results[0].numberAttending);
         if (ticketsRemaining <= 0) {
             ticketsRemaining = 0;
@@ -244,14 +241,11 @@ router.post('/add-event-form', function(req, res){
 
         // Check to see if there was an error
         if (error) {
-  
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error)
             res.sendStatus(400);
         }
   
-        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
-        // presents it on the screen
+        // redirect to events
         else
         {
             res.redirect('/events');
@@ -260,6 +254,7 @@ router.post('/add-event-form', function(req, res){
 });
 
 
+// add a ticket to Tickets for a given user and event
 router.post('/add-ticket/:id', function(req, res){
     var mysql = req.app.get('mysql');
     let data = req.body;
@@ -281,6 +276,7 @@ router.post('/add-ticket/:id', function(req, res){
     res.redirect('../');
 });
 
+// add a tag to an event
 router.post('/add-tag/:id', function(req, res){
     var mysql = req.app.get('mysql');
     let data = req.body;
@@ -306,6 +302,7 @@ router.post('/:id', function(req, res){
     var mysql = req.app.get('mysql');
     let data = req.body;
     let id = req.params.id;
+    var dateTime = req.body.date + " " + req.body.time;
     var _entryFee = null;
     var _ticketPrice = null;
     if (data.hasEntryFee == "FALSE"){
@@ -317,7 +314,7 @@ router.post('/:id', function(req, res){
         _ticketPrice = data.ticketPrice;
     }
     var sql = "UPDATE Events SET dateTime=?, eventName=?, venueName=?, addressLine1=?, addressLine2=?, city=?, state=?, country=?, zip=?, latitude=?, longitude=?, eventCapacity=?, hasEntryFee=?, ticketPrice=? WHERE eventID=?";
-    var inserts = [data.dateTime, data.eventName, data.venueName, data.addressLine1, data.addressLine2, data.city, data.state, data.country, data.zip, data.latitude, data.longitude, data.eventCapacity, _entryFee, _ticketPrice, id];
+    var inserts = [dateTime, data.eventName, data.venueName, data.addressLine1, data.addressLine2, data.city, data.state, data.country, data.zip, data.latitude, data.longitude, data.eventCapacity, _entryFee, _ticketPrice, id];
 
     sql = mysql.pool.query(sql,inserts,function(error, results, fields){
         if(error){
@@ -332,25 +329,6 @@ router.post('/:id', function(req, res){
     });
 });
 
-
-/* router.post('/add-ticket-form', function(req, res){
-    var mysql = req.app.get('mysql');
-    let data = req.body;
-    let id = req.params.id;
-    var sql = "INSERT INTO Tickets (ownerID, eventID, confirmedArrival) VALUES (?, ?, 0);"
-    var inserts = [data.ownerID, data.eventID];
-    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-        if(error){
-            console.log(error)
-            res.write(JSON.stringify(error));
-            res.end();
-        }else{
-            res.status(200);
-            res.redirect('/events');
-            res.end();
-        }
-    });
-}); */
 
 /*
 
@@ -381,42 +359,6 @@ router.delete('/delete/:id', function(req, res){
     });
 });
 
-/* // and an event:
-router.post('/add-event-form', function(req, res){
-    let data = req.body;
-    var event_capacity = data['event-cap'];
-    var host_id = data['host-id'];
-    console.log(req.body.eventName);
-    if (data['entry-fee'] == "FALSE") {
-        has_entry_fee = false;
-        ticket_price = 0;
-    }
-    else {
-        has_entry_fee = true;
-        ticket_price = data['ticket-price'];
-    }
-
-    var mysql = req.app.get('mysql');
-    query1 = `INSERT INTO Events (hostID, dateTime, eventName, venueName, addressLine1, addressLine2, city, state, country, zip, latitude, longitude, eventCapacity, hasEntryFee, ticketPrice, numberAttending) VALUES (${host_id}, '${data['date-time']}', '${data['event-name']}', '${data['venue-name']}', '${data['address-line-1']}', '${data['address-line-2']}', '${data['city']}', '${data['state']}', '${data['country']}','${data['zip-code']}', ${data['latitude']}, ${data['longitude']}, ${event_capacity}, ${has_entry_fee}, ${ticket_price}, 0)`;  
-    
-    mysql.pool.query(query1, function(error, rows, fields){
-
-        // Check to see if there was an error
-        if (error) {
-  
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-  
-        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
-        // presents it on the screen
-        else
-        {
-            res.redirect('/events');
-        }
-    });
-}); */
 
 module.exports = router;
 
