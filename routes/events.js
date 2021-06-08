@@ -21,6 +21,7 @@ function displayEvents(res, mysql, context, complete){
     });
 }
 
+
 function getEventByID(res, mysql, context, complete, id){
     let query1 = "SELECT * FROM Events WHERE eventID = " + id + ";";
     mysql.pool.query(query1, function(error, results){
@@ -42,6 +43,46 @@ function getHosts(res, mysql, context, complete){
             res.end();
         }
         context.hosts = results;
+        complete();
+    });
+}
+
+function getTagsByID(res, mysql, context, complete, id){
+    let query1 = "SELECT tagName FROM Tags_Events WHERE eventID = " + id + ";";
+    mysql.pool.query(query1, function(error, results){
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        context.tags = results;
+        //console.log(context.event.eventName);
+        complete();
+    });
+}
+
+function filterEventsByTag(res, mysql, context, complete, tag){
+    let sql = `Select * From Events INNER JOIN Tags_Events ON Events.eventID = Tags_Events.eventID AND Tags_Events.tagName = ?`;
+    var inserts = [tag];
+    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+        if(error){
+            console.log(error)
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        context.events = results;
+        complete();
+    });
+}
+
+function getTags(res, mysql, context, complete){
+    let sql = `Select * From Tags`;
+    sql = mysql.pool.query(sql, function(error, results, fields){
+        if(error){
+            console.log(error)
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        context.tags = results;
         complete();
     });
 }
@@ -92,9 +133,27 @@ router.get('/', function(req, res){
     var mysql = req.app.get('mysql');
     displayEvents(res, mysql, context, complete);
     getHosts(res, mysql, context, complete);
+    getTags(res, mysql, context, complete);
     function complete() {
         callbackCount++;
-        if (callbackCount >= 2){
+        if (callbackCount >= 3){
+            res.render('events', context);
+        }
+    }
+});
+
+router.get('/filter/:tag', function(req, res){
+    var callbackCount = 0;
+    context = {};
+    tag = req.params.tag;
+    var mysql = req.app.get('mysql');
+    displayEvents(res, mysql, context, complete);
+    getHosts(res, mysql, context, complete);
+    filterEventsByTag(res, mysql, context, complete, tag);
+    getTags(res, mysql, context, complete);
+    function complete() {
+        callbackCount++;
+        if (callbackCount >= 4){
             res.render('events', context);
         }
     }
@@ -108,9 +167,10 @@ router.get('/view/:id', function(req, res) {
     var mysql = req.app.get('mysql');
     getEventByID(res, mysql, context, complete, id);
     checkTicketsAvailable(res, mysql, context, complete, id);
+    getTagsByID(res, mysql, context, complete, id);
     function complete() {
         callbackCount++;
-        if (callbackCount >= 2){
+        if (callbackCount >= 3){
             console.log(context.availability.ticketsAvailable);
             res.render('event', context);
         }
@@ -220,6 +280,25 @@ router.post('/add-ticket/:id', function(req, res){
     sql = mysql.pool.query(sql);
 });
 
+router.post('/add-tag/:id', function(req, res){
+    var mysql = req.app.get('mysql');
+    let data = req.body;
+    let id = req.params.id;
+    var sql = "CALL checkTagExists(?, ?);";
+    inserts = [data.addTag, id];
+    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+        if(error){
+            console.log(error)
+            res.write(JSON.stringify(error));
+            res.end();
+        }else{
+            res.status(200);
+            res.redirect('../view/' + id);
+            res.end();
+        }
+    });
+});
+
 
 // update an event by specific id
 router.post('/:id', function(req, res){
@@ -251,6 +330,7 @@ router.post('/:id', function(req, res){
         }
     });
 });
+
 
 /* router.post('/add-ticket-form', function(req, res){
     var mysql = req.app.get('mysql');
